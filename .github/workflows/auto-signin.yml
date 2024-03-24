@@ -1,0 +1,30 @@
+name: Books.com.tw Daily Signin
+
+on:
+  # Runs automatically every day at 12:00 UTC
+  schedule: [{ cron: "0 12 * * *" }]
+
+  workflow_dispatch:
+  push: { branches: ["master", "main"] }
+
+jobs:
+  auto-signin:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out this repo
+        uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.8"
+      - name: Set up chromedriver
+        uses: nanasess/setup-chromedriver@v2
+      - name: Install bookstw
+        run: pip install bookstw
+      - name: Run the scraping script
+        run: python ./demo/github-auto-signin.py
+        env:
+            BAIDU_API_KEY: ${{ secrets.BAIDU_API_KEY }}
+            BAIDU_SECRET_KEY: ${{ secrets.BAIDU_SECRET_KEY }}
+            BOOKS_TW_USERNAME: ${{ secrets.BOOKS_TW_USERNAME }}
+            BOOKS_TW_PASSWORD: ${{ secrets.BOOKS_TW_PASSWORD }}
