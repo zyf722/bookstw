@@ -20,7 +20,7 @@ jobs:
       - name: Set up chromedriver
         uses: nanasess/setup-chromedriver@v2
       - name: Install bookstw
-        run: pip install bookstw
+        run: pip install rich bookstw
       - name: Run the auto-sign script
         run: python ./demo/github-auto-signin.py
         env:
