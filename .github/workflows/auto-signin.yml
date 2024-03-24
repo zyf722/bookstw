@@ -21,7 +21,7 @@ jobs:
         uses: nanasess/setup-chromedriver@v2
       - name: Install bookstw
         run: pip install bookstw
-      - name: Run the scraping script
+      - name: Run the auto-sign script
         run: python ./demo/github-auto-signin.py
         env:
             BAIDU_API_KEY: ${{ secrets.BAIDU_API_KEY }}
