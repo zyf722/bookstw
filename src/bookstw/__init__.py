@@ -8,6 +8,22 @@ from selenium.webdriver.remote.webdriver import WebDriver
 from bookstw.ocr import BaseOCR, OCRError
 
 
+class LoginError(Exception):
+    """
+    Error when login failed.
+    """
+
+    pass
+
+
+class DailySignInError(Exception):
+    """
+    Error when daily sign in failed.
+    """
+
+    pass
+
+
 class BooksTWRunner:
     """
     Selenium runner for books.com.tw.
@@ -82,7 +98,11 @@ class BooksTWRunner:
 
             retry += 1
 
-        if allow_manual_retry and retry == -1:
+        if retry == -1:
+            if not allow_manual_retry:
+                self.logger.error("Failed to solve captcha by OCR.")
+                raise LoginError("Failed to solve captcha by OCR.")
+
             self.logger.error("Failed to solve captcha by OCR. Please try manually.")
 
             import os
@@ -133,3 +153,6 @@ class BooksTWRunner:
             self.logger.info("Signed in successfully.")
         except NoSuchElementException:
             self.logger.error("Failed to sign in. You might already signed in today.")
+            raise DailySignInError(
+                "Failed to sign in. You might already signed in today."
+            )
