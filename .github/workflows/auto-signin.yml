@@ -9,6 +9,9 @@ on:
     tags:
       - "*.*.*"
 
+env:
+  INSTALL_FROM: Poetry  # Valid values: Poetry, PyPI
+
 jobs:
   auto-signin:
     runs-on: ubuntu-latest
@@ -21,9 +24,29 @@ jobs:
           python-version: "3.8"
       - name: Set up chromedriver
         uses: nanasess/setup-chromedriver@v2
-      - name: Install bookstw
-        run: pip install rich bookstw
-      - name: Run the auto-sign script
+
+      # Poetry Branch
+      - name: "[From Poetry] Set up Poetry"
+        uses: abatilo/actions-poetry@v2
+        with:
+          poetry-version: "1.7.1"
+        if: ${{ env.INSTALL_FROM == 'Poetry' }}
+      - name: "[From Poetry] Install dependencies"
+        run: poetry install
+        if: ${{ env.INSTALL_FROM == 'Poetry' }}
+      - name: "[From Poetry] Run the auto-sign script"
+        run: poetry run python ./demo/github-auto-signin.py
+        env:
+            BAIDU_API_KEY: ${{ secrets.BAIDU_API_KEY }}
+            BAIDU_SECRET_KEY: ${{ secrets.BAIDU_SECRET_KEY }}
+            BOOKS_TW_USERNAME: ${{ secrets.BOOKS_TW_USERNAME }}
+            BOOKS_TW_PASSWORD: ${{ secrets.BOOKS_TW_PASSWORD }}
+
+      # PyPI Branch
+      - name: "[From PyPI] Install dependencies"
+        run: pip install bookstw
+        if: ${{ env.INSTALL_FROM == 'PyPI' }}
+      - name: "[From PyPI] Run the auto-sign script"
         run: python ./demo/github-auto-signin.py
         env:
             BAIDU_API_KEY: ${{ secrets.BAIDU_API_KEY }}
