@@ -1,7 +1,7 @@
-**English** | [简体中文](README.zh-CN.md)
+**English** | [简体中文](README.zh-Hans.md) | [繁體中文](README.zh-Hant.md)
 
 # bookstw
-Powered by [selenium](https://selenium-python.readthedocs.io/), `bookstw` is a simple library to interact with Books.com.tw.
+Powered by [selenium](https://selenium-python.readthedocs.io/), `bookstw` is a simple Python library to interact with Books.com.tw.
 
 ## Installation
 ```bash
@@ -9,7 +9,7 @@ pip install bookstw
 ```
 
 ## Quick Start
-Let's get started with a simple example that logs in to Books.com.tw and signs in daily.
+Let's get started with a simple example that logs in to Books.com.tw and takes the daily sign-in action:
 
 > [!NOTE]
 >
@@ -43,16 +43,19 @@ if __name__ == "__main__":
 
 The above code snippet demonstrates how to sign in daily with `bookstw`.
 
-The `BaiduHandwritingOCR` is used to solve the captcha.  Currently, it is the only OCR provider supported by `bookstw`. However, you can implement your own OCR provider by inheriting the [`BaseOCR` class](./src/bookstw/ocr/__init__.py).
+The `BaiduHandwritingOCR` is used to solve the captcha. It calls the [Baidu Handwriting OCR API](https://cloud.baidu.com/product/ocr_others/handwriting) to recognize the captcha image.
+
+Currently, it is the only OCR provider supported by `bookstw`. However, you can implement your own OCR provider by inheriting the [`BaseOCR` class](./src/bookstw/ocr/__init__.py).
 
 ## Github Actions
+### [auto-signin.yml](.github/workflows/auto-signin.yml)
 Fork this repository and create the following secrets in your repository:
 - `BAIDU_API_KEY`
 - `BAIDU_SECRET_KEY`
 - `BOOKS_TW_USERNAME`
 - `BOOKS_TW_PASSWORD`
 
-Check the [workflow file](.github/workflows/auto-signin.yml) for more details.
+Change `INSTALL_FROM` environment variable to `PyPI` in .yml file if you want to install from PyPI, or keep it as `Poetry` to install from source.
 
 ## API Reference
 ### `bookstw.BooksTWRunner`
@@ -62,13 +65,18 @@ Creates a new `BooksTWRunner` instance.
 - `ocr`: The OCR provider used to solve the captcha.
 - `webdriver`: The WebDriver used to interact with Books.com.tw.
 
-#### `bookstw.BooksTWRunner.login(self, username: str, password: str, ocr_retry: int = 3, retry_delay: int = 5) -> None`
+#### `bookstw.BooksTWRunner.login(self, username: str, password: str, allow_manual_retry: bool = True, ocr_retry: int = 3, retry_delay: int = 5) -> None`
 Login to books.com.tw.
+
+Captcha is solved using OCR.
 
 - `username`: Username.
 - `password`: Password.
+- `allow_manual_retry`: Allow manual retry if OCR failed.
 - `ocr_retry`: Number of retries for OCR.
 - `retry_delay`: Delay between retries in seconds.
 
 #### `bookstw.BooksTWRunner.daily_sign_in(self) -> None`
-Sign in daily.
+Daily sign in to get Read Mileage.
+
+If already signed in, it will throw an exception.
