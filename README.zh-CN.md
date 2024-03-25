@@ -16,7 +16,6 @@ pip install bookstw
 > 目前，这是 `bookstw` 提供的唯一功能。
 
 ```python
-from rich.logging import RichHandler
 from selenium.webdriver import Chrome
 from selenium.webdriver.chrome.options import Options
 
@@ -38,9 +37,6 @@ if __name__ == "__main__":
     chrome = Chrome(options)
 
     runner = BooksTWRunner(ocr=baidu_ocr, webdriver=chrome)
-
-    runner.logger.addHandler(RichHandler())
-
     runner.login("<YOUR_USERNAME>", "<YOUR_PASSWORD>")
     runner.daily_sign_in()
 ```
