@@ -1,11 +1,9 @@
 import os
 
-from rich.logging import RichHandler
-from selenium.webdriver import Chrome
-from selenium.webdriver.chrome.options import Options
-
 from bookstw import BooksTWRunner
 from bookstw.ocr.baidu import BaiduHandwritingOCR
+from selenium.webdriver import Chrome
+from selenium.webdriver.chrome.options import Options
 
 if __name__ == "__main__":
     baidu_ocr = BaiduHandwritingOCR(
@@ -22,9 +20,6 @@ if __name__ == "__main__":
     chrome = Chrome(options)
 
     runner = BooksTWRunner(ocr=baidu_ocr, webdriver=chrome)
-
-    runner.logger.addHandler(RichHandler())
-
     runner.login(
         username=os.environ["BOOKS_TW_USERNAME"],
         password=os.environ["BOOKS_TW_PASSWORD"],

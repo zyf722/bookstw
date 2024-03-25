@@ -16,7 +16,6 @@ Let's get started with a simple example that logs in to Books.com.tw and signs i
 > For now it is the only feature provided by `bookstw`.
 
 ```python
-from rich.logging import RichHandler
 from selenium.webdriver import Chrome
 from selenium.webdriver.chrome.options import Options
 
@@ -38,9 +37,6 @@ if __name__ == "__main__":
     chrome = Chrome(options)
 
     runner = BooksTWRunner(ocr=baidu_ocr, webdriver=chrome)
-
-    runner.logger.addHandler(RichHandler())
-
     runner.login("<YOUR_USERNAME>", "<YOUR_PASSWORD>")
     runner.daily_sign_in()
 ```
