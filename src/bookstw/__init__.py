@@ -56,6 +56,7 @@ class BooksTWRunner:
         Args:
             username(str): Username.
             password(str): Password.
+            allow_manual_retry(bool): Allow manual retry if OCR failed.
             ocr_retry(int): Number of retries for OCR.
             retry_delay(int): Delay between retries in seconds.
         """
@@ -140,6 +141,8 @@ class BooksTWRunner:
     def daily_sign_in(self):
         """
         Daily sign in to get Read Mileage.
+
+        If already signed in, it will throw an exception.
         """
         self.logger.info("Signing in...")
         self.driver.get(self.DAILY_SIGN_IN_URL)
