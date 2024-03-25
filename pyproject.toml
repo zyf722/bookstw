@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "bookstw"
-version = "0.1.0"
+version = "0.1.1"
 description = "Simple tool to interact with books.com.tw"
 authors = ["zyf722 <MaxMixAlex@protonmail.com>"]
 readme = "README.md"
