@@ -41,6 +41,7 @@ jobs:
             BAIDU_SECRET_KEY: ${{ secrets.BAIDU_SECRET_KEY }}
             BOOKS_TW_USERNAME: ${{ secrets.BOOKS_TW_USERNAME }}
             BOOKS_TW_PASSWORD: ${{ secrets.BOOKS_TW_PASSWORD }}
+        if: ${{ env.INSTALL_FROM == 'Poetry' }}
 
       # PyPI Branch
       - name: "[From PyPI] Install dependencies"
@@ -53,3 +54,4 @@ jobs:
             BAIDU_SECRET_KEY: ${{ secrets.BAIDU_SECRET_KEY }}
             BOOKS_TW_USERNAME: ${{ secrets.BOOKS_TW_USERNAME }}
             BOOKS_TW_PASSWORD: ${{ secrets.BOOKS_TW_PASSWORD }}
+        if: ${{ env.INSTALL_FROM == 'PyPI' }}
