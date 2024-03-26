@@ -11,6 +11,9 @@ on:
 
 env:
   INSTALL_FROM: Poetry  # Valid values: Poetry, PyPI
+  PYTHON_VERSION: "3.8"  # See https://github.com/actions/python-versions/releases
+  POETRY_VERSION: "1.7.1"  # See https://github.com/python-poetry/poetry/releases
+  
 
 jobs:
   auto-signin:
@@ -21,7 +24,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: "3.8"
+          python-version: ${{ env.PYTHON_VERSION }}
       - name: Set up chromedriver
         uses: nanasess/setup-chromedriver@v2
 
@@ -29,7 +32,7 @@ jobs:
       - name: "[From Poetry] Set up Poetry"
         uses: abatilo/actions-poetry@v2
         with:
-          poetry-version: "1.7.1"
+          poetry-version: ${{ env.POETRY_VERSION }}
         if: ${{ env.INSTALL_FROM == 'Poetry' }}
       - name: "[From Poetry] Install dependencies"
         run: poetry install
