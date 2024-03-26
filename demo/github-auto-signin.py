@@ -1,9 +1,10 @@
 import os
 
-from bookstw import BooksTWRunner
-from bookstw.ocr.baidu import BaiduHandwritingOCR
 from selenium.webdriver import Chrome
 from selenium.webdriver.chrome.options import Options
+
+from bookstw import BooksTWRunner
+from bookstw.ocr.baidu import BaiduHandwritingOCR
 
 if __name__ == "__main__":
     baidu_ocr = BaiduHandwritingOCR(
@@ -24,5 +25,6 @@ if __name__ == "__main__":
         username=os.environ["BOOKS_TW_USERNAME"],
         password=os.environ["BOOKS_TW_PASSWORD"],
         allow_manual_retry=False,
+        ocr_retry=5,
     )
     runner.daily_sign_in()
