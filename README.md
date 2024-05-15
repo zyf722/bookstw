@@ -80,3 +80,6 @@ Captcha is solved using OCR.
 Daily sign in to get Read Mileage.
 
 If already signed in, it will throw an exception.
+
+## Known Issues
+- [ ] The "You haven't changed your password for a long time" dialog box is currently not being processed, which may cause Github Actions to fail.
